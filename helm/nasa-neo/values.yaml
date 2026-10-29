@@ -1,9 +1,10 @@
 replicaCount: 1
 
 image:
-  repository: localhost:5000/nasa-neo
-  tag: local
+  repository: ghcr.io/falkobasner/nasa-neo
+  tag: latest
   pullPolicy: IfNotPresent
+  pullSecret: ghcr-pull-secret
 
 service:
   port: 80

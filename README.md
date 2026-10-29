@@ -38,3 +38,42 @@ Get a NASA API key at https://api.nasa.gov/.
 - **CI/CD:** GitHub Actions → build Docker image → push to ghcr.io → `helm upgrade --install`
 - Kubeconfig stored as a GitHub Actions secret
 - Gardener kube-apiserver must be publicly reachable (`kubectl cluster-info`)
+
+### One-time Cluster Setup
+
+Run these once when setting up a new cluster.
+
+**Create namespace:**
+
+```bash
+kubectl create namespace nasa
+```
+
+**Create ghcr.io pull secret:**
+
+Create a GitHub PAT with `read:packages` scope, then:
+
+```bash
+kubectl create secret docker-registry ghcr-pull-secret \
+  --docker-server=ghcr.io \
+  --docker-username=<github-username> \
+  --docker-password=<github-pat> \
+  --namespace nasa
+```
+
+**Rotate pull secret:**
+
+```bash
+kubectl create secret docker-registry ghcr-pull-secret \
+  --docker-server=ghcr.io \
+  --docker-username=<github-username> \
+  --docker-password=<new-github-pat> \
+  --namespace nasa \
+  --dry-run=client -o yaml | kubectl apply -f -
+```
+
+### Helm Deploy
+
+```bash
+helm upgrade --install nasa-neo helm/nasa-neo --namespace nasa
+```
