@@ -1,0 +1,17 @@
+replicaCount: 1
+
+image:
+  repository: nasa-neo
+  tag: local
+  pullPolicy: IfNotPresent
+
+service:
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: false
+  host: nasa-neo.local
+
+env:
+  NASA_API_KEY: "DEMO_KEY"
