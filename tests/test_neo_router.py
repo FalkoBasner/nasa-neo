@@ -5,6 +5,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from main import app
+from nasa_neo.errors import UpstreamError
 from nasa_neo.nasa_client import get_nasa_client
 
 FIXTURE = json.loads(
@@ -73,3 +74,34 @@ def test_week_invalid_low(client):
 def test_week_invalid_high(client):
     response = client.get("/neo/week/54")
     assert response.status_code == 422
+
+
+class RateLimitedNasaClient:
+    async def get_neos(self, start, end):
+        raise UpstreamError(detail="You have exceeded your rate limit.", code=429, source="nasa")
+
+
+class UnreachableNasaClient:
+    async def get_neos(self, start, end):
+        raise UpstreamError(detail="NASA API unreachable", code=None, source="nasa")
+
+
+def test_upstream_rate_limit_returns_502(client):
+    app.dependency_overrides[get_nasa_client] = lambda: RateLimitedNasaClient()
+    response = client.get("/neo/week/44")
+    assert response.status_code == 502
+    error = response.json()["error"]
+    assert error["status"] == 502
+    assert error["upstream"]["code"] == 429
+    assert error["upstream"]["source"] == "nasa"
+    assert error["upstream"]["message"] == "You have exceeded your rate limit."
+
+
+def test_upstream_unreachable_returns_502(client):
+    app.dependency_overrides[get_nasa_client] = lambda: UnreachableNasaClient()
+    response = client.get("/neo/week/44")
+    assert response.status_code == 502
+    error = response.json()["error"]
+    assert error["status"] == 502
+    assert error["upstream"]["code"] is None
+    assert error["upstream"]["message"] == "NASA API unreachable"

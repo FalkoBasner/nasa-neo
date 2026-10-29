@@ -2,10 +2,10 @@
 # Start the app with: ./run_local_dev.sh
 
 ### Health check
-GET http://localhost:8080/health
+GET http://localhost:8000/health
 
 ### NEOs for current week (week 44, 2026)
-GET http://localhost:8080/neo/week/44
+GET http://localhost:8000/neo/week/44
 
 ### NEOs for current week — hazardous only
-GET http://localhost:8080/neo/week/44?filter=hazardous
+GET http://localhost:8000/neo/week/44?filter=hazardous
