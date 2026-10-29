@@ -11,7 +11,7 @@ def register_error_handlers(app: FastAPI) -> None:
             status_code=502,
             content={
                 "error": {
-                    "status": 502,
+                    "code": 502,
                     "upstream": {"code": exc.code, "source": exc.source, "message": exc.detail},
                 },
             },

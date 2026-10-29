@@ -91,7 +91,7 @@ def test_upstream_rate_limit_returns_502(client):
     response = client.get("/neo/week/44")
     assert response.status_code == 502
     error = response.json()["error"]
-    assert error["status"] == 502
+    assert error["code"] == 502
     assert error["upstream"]["code"] == 429
     assert error["upstream"]["source"] == "nasa"
     assert error["upstream"]["message"] == "You have exceeded your rate limit."
@@ -102,6 +102,6 @@ def test_upstream_unreachable_returns_502(client):
     response = client.get("/neo/week/44")
     assert response.status_code == 502
     error = response.json()["error"]
-    assert error["status"] == 502
+    assert error["code"] == 502
     assert error["upstream"]["code"] is None
     assert error["upstream"]["message"] == "NASA API unreachable"
