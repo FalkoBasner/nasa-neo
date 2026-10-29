@@ -1,0 +1,12 @@
+# NASA NeoWs API — exploratory requests
+# Uses DEMO_KEY (rate limited: 30 req/hour, 50 req/day)
+# Replace with your own key from https://api.nasa.gov/
+
+### Feed for current week (Oct 27 – Nov 2, 2026)
+GET https://api.nasa.gov/neo/rest/v1/feed?start_date=2026-10-27&end_date=2026-11-02&api_key=DEMO_KEY
+
+### Hazardous NEO from current week — Zoozve (2002 VE68)
+GET https://api.nasa.gov/neo/rest/v1/neo/2524522?api_key=DEMO_KEY
+
+### Safe NEO from current week — 307493 (2002 XP90)
+GET https://api.nasa.gov/neo/rest/v1/neo/2307493?api_key=DEMO_KEY
