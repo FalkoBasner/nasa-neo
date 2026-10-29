@@ -20,10 +20,17 @@ uv sync
 
 # Set your NASA API key
 export NASA_API_KEY=your_key_here  # or use DEMO_KEY for lower rate limits
-
-# Run the server
-uv run python main.py
 ```
+
+```bash
+# Run the server
+./run_local_dev.sh
+```
+
+| Script | Purpose |
+|---|---|
+| `run_local_dev.sh` | Start the FastAPI server locally on port 8080 with hot-reload |
+| `run_tests.sh` | Run the test suite via pytest |
 
 Get a NASA API key at https://api.nasa.gov/.
 
