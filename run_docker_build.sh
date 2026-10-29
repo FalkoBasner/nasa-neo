@@ -2,7 +2,7 @@
 set -euo pipefail
 
 GIT_SHA=$(git rev-parse --short HEAD)
-IMAGE="nasa-neo:${GIT_SHA}"
+IMAGE="nasa-neo:${1:-$GIT_SHA}"
 
 docker build -t "$IMAGE" .
 echo "Built $IMAGE"
