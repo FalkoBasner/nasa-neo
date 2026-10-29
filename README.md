@@ -15,7 +15,15 @@ A small web server wrapping the NASA NeoWs (Near Earth Object Web Service) API, 
 
 ## Development Setup
 
-**Install [uv](https://docs.astral.sh/uv/getting-started/installation/)** (Python package manager).
+**Install [asdf](https://asdf-vm.com/guide/getting-started.html)** for tool version management, then:
+
+```bash
+asdf plugin add uv https://github.com/asdf-community/asdf-uv.git
+asdf plugin add helm https://github.com/Antiarchitect/asdf-helm.git
+asdf install
+```
+
+This installs all tools pinned in `.tool-versions` (`uv`, `helm`).
 
 ```bash
 uv sync
