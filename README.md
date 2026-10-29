@@ -4,14 +4,11 @@ A small web server wrapping the NASA NeoWs (Near Earth Object Web Service) API, 
 
 ## API Endpoints
 
-| Endpoint | Behavior |
-|---|---|
-| `GET /health` | Returns HTTP 200 |
-| `GET /neo/week/<N>` | Returns all NEO IDs for calendar week N (e.g. week 4 = 2026-01-19 to 2026-01-25) |
-| `GET /neo/week/<N>?filter=hazardous` | Returns only NEO IDs where `is_potentially_hazardous_asteroid == true` |
-| `GET /stats` | Returns total number of incoming requests across all endpoints |
+| Method | Path | Description |
+|---|---|---|
+| `GET` | `/health` | Returns HTTP 200 |
+| `GET` | `/docs` | Swagger UI (OpenAPI) |
 
-Calendar weeks follow ISO 8601 (Monday–Sunday).
 
 ## Development Setup
 

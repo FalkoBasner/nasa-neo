@@ -6,7 +6,10 @@ authors = [
     { name = "Falko Basner", email = "falko.basner@sap.com" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "fastapi>=0.162.0",
+    "uvicorn>=0.54.0",
+]
 
 [project.scripts]
 nasa-neo = "nasa_neo:main"
