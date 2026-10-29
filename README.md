@@ -47,6 +47,23 @@ Get a NASA API key at https://api.nasa.gov/.
 - Kubeconfig stored as a GitHub Actions secret
 - Gardener kube-apiserver must be publicly reachable (`kubectl cluster-info`)
 
+### One-time Repository Setup
+
+**Add GitHub Actions secrets** under Settings → Secrets and variables → Actions:
+
+| Secret | Value |
+|---|---|
+| `KUBECONFIG` | Shoot cluster kubeconfig (see below) |
+| `NASA_API_KEY` | Your NASA API key from https://api.nasa.gov/ |
+
+To get the kubeconfig value for the `KUBECONFIG` secret:
+
+```bash
+kubectl config view --raw --minify --context=<your-shoot-context>
+```
+
+Paste the full output as the secret value.
+
 ### One-time Cluster Setup
 
 Run these once when setting up a new cluster.
