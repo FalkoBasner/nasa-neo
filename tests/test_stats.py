@@ -1,7 +1,7 @@
 import nasa_neo.stats as stats
 from fastapi.testclient import TestClient
 
-from main import app
+from nasa_neo.main import app
 
 client = TestClient(app)
 
