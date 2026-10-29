@@ -97,8 +97,3 @@ kubectl create secret docker-registry ghcr-pull-secret \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-### Helm Deploy
-
-```bash
-helm upgrade --install nasa-neo helm/nasa-neo --namespace nasa
-```
