@@ -1,26 +1,25 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
 
-from nasa_neo.errors import UpstreamError
+import nasa_neo.stats as stats
+from nasa_neo.routers.error_handlers import register_error_handlers
 from nasa_neo.routers.neo import router as neo_router
 
 app = FastAPI()
 app.include_router(neo_router)
+register_error_handlers(app)
 
 
-@app.exception_handler(UpstreamError)
-async def upstream_error_handler(_: Request, exc: UpstreamError):
-    return JSONResponse(
-        status_code=502,
-        content={
-            "error": {
-                "status": 502,
-                "upstream": {"code": exc.code, "source": exc.source, "message": exc.detail},
-            },
-        },
-    )
+@app.middleware("http")
+async def count_requests(request: Request, call_next):
+    stats.request_count += 1
+    return await call_next(request)
 
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.get("/stats")
+def get_stats():
+    return {"requests": stats.request_count}

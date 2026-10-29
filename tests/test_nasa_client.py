@@ -6,7 +6,7 @@ import httpx
 import pytest
 import respx
 
-from nasa_neo.errors import UpstreamError
+from nasa_neo.routers.error_types import UpstreamError
 from nasa_neo.nasa_client import NasaClient
 
 FIXTURE = json.loads(
