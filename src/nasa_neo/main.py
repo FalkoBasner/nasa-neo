@@ -11,7 +11,13 @@ register_error_handlers(app)
 
 @app.middleware("http")
 async def count_requests(request: Request, call_next):
-    stats.request_count += 1
+    path = request.url.path
+    if path == "/health":
+        stats.requests["health"] += 1
+    elif path.startswith("/neo"):
+        stats.requests["neo"] += 1
+    elif path == "/stats":
+        stats.requests["stats"] += 1
     return await call_next(request)
 
 
@@ -22,4 +28,4 @@ def health():
 
 @app.get("/stats")
 def get_stats():
-    return {"requests": stats.request_count}
+    return {"requests": stats.requests}

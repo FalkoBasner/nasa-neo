@@ -7,19 +7,19 @@ client = TestClient(app)
 
 
 def setup_function():
-    stats.request_count = 0
+    stats.requests = {"health": 0, "neo": 0, "stats": 0}
 
 
-def test_stats_counts_requests():
+def test_stats_counts_per_endpoint():
     client.get("/health")
     client.get("/health")
     response = client.get("/stats")
     assert response.status_code == 200
-    assert response.json()["requests"] == 3
+    assert response.json() == {"requests": {"health": 2, "neo": 0, "stats": 1}}
 
 
 def test_stats_counts_across_endpoints():
     client.get("/health")
     client.get("/stats")
     response = client.get("/stats")
-    assert response.json()["requests"] == 3
+    assert response.json() == {"requests": {"health": 1, "neo": 0, "stats": 2}}
