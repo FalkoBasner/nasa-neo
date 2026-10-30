@@ -2,7 +2,7 @@
 
 A small web server wrapping the NASA NeoWs (Near Earth Object Web Service) API, containerized and deployed via Helm to a SAP Gardener Kubernetes cluster.
 
-**Live API:** https://nasa-neo.r3qxqvepx6.nasa.shoot.canary.k8s-hana.ondemand.com
+**Live API:** http://aec906a042180430ba49f70e07566242-18198717.eu-west-1.elb.amazonaws.com
 
 ## API Endpoints
 
