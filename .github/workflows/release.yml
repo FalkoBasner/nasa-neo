@@ -43,9 +43,10 @@ jobs:
       - name: Deploy via Helm
         env:
           KUBECONFIG_DATA: ${{ secrets.KUBECONFIG }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           echo "$KUBECONFIG_DATA" > /tmp/kubeconfig.yaml
-          sed -i "s/^appVersion:.*/appVersion: \"${{ github.event.release.tag_name }}\"/" helm/nasa-neo/Chart.yaml
+          sed -i "s/^appVersion:.*/appVersion: \"${RELEASE_TAG#v}\"/" helm/nasa-neo/Chart.yaml
           helm upgrade --install nasa-neo helm/nasa-neo \
             --namespace nasa \
             --kubeconfig /tmp/kubeconfig.yaml \
