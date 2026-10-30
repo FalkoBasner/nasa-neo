@@ -4,6 +4,8 @@ A small web server wrapping the NASA NeoWs (Near Earth Object Web Service) API, 
 
 **Live API:** http://aec906a042180430ba49f70e07566242-18198717.eu-west-1.elb.amazonaws.com
 
+> **Note:** This is HTTP only and not suitable for production. A real deployment would need a proper domain, TLS termination via an ingress controller (e.g. nginx-ingress), and a certificate provisioned by cert-manager.
+
 ## API Endpoints
 
 | Method | Path | Description |
