@@ -15,11 +15,11 @@ def test_stats_counts_per_endpoint():
     client.get("/health")
     response = client.get("/stats")
     assert response.status_code == 200
-    assert response.json() == {"requests": {"health": 2, "neo": 0, "stats": 1}}
+    assert response.json() == {"requests": {"total": 3, "health": 2, "neo": 0, "stats": 1}}
 
 
 def test_stats_counts_across_endpoints():
     client.get("/health")
     client.get("/stats")
     response = client.get("/stats")
-    assert response.json() == {"requests": {"health": 1, "neo": 0, "stats": 2}}
+    assert response.json() == {"requests": {"total": 3, "health": 1, "neo": 0, "stats": 2}}

@@ -11,6 +11,17 @@ class ValidationErrorResponse(BaseModel):
     detail: str
 
 
+class RequestCounts(BaseModel):
+    total: int
+    health: int
+    neo: int
+    stats: int
+
+
+class StatsResponse(BaseModel):
+    requests: RequestCounts
+
+
 class NeoWeekResponse(BaseModel):
     week: int
     ids: list[str]
