@@ -51,7 +51,7 @@ Get a NASA API key at https://api.nasa.gov/.
 ## Deployment
 
 - **Registry:** ghcr.io
-- **Cluster:** SAP Gardener trial cluster
+- **Cluster:** SAP Gardener trial cluster ([dashboard](https://dashboard.garden.canary.k8s.ondemand.com/namespace/garden-nasa/shoots))
 - **CI/CD:** GitHub Actions → build Docker image → push to ghcr.io → `helm upgrade --install`
 - Kubeconfig stored as a GitHub Actions secret
 - Gardener kube-apiserver must be publicly reachable (`kubectl cluster-info`)
