@@ -3,4 +3,6 @@ name: nasa-neo
 description: NASA Near Earth Object API
 type: application
 version: 1.0.0
+# Placeholder — overwritten at deploy time by release.yml via:
+# sed -i "s/^appVersion:.*/appVersion: \"<tag>\"/" helm/nasa-neo/Chart.yaml
 appVersion: "0.0.0"
