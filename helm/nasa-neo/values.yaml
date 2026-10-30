@@ -7,9 +7,10 @@ image:
   pullSecret: ghcr-pull-secret
 
 service:
+  type: LoadBalancer
   port: 80
   targetPort: 8000
 
 ingress:
-  enabled: true
+  enabled: false
   host: nasa-neo.r3qxqvepx6.nasa.shoot.canary.k8s-hana.ondemand.com
