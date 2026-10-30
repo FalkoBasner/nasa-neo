@@ -1,6 +1,9 @@
 # nasa-neo app API
 # Environments: local (port 8000), gardener (port-forward via tools/k8s/port-forward.sh, port 8008)
 
+### Docs
+GET {{baseUrl}}/docs
+
 ### Health check
 GET {{baseUrl}}/health
 
