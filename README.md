@@ -50,6 +50,13 @@ All scripts are callable from any directory.
 
 Get a NASA API key at https://api.nasa.gov/.
 
+**Testing against the cluster:** Once you have [configured cluster access](https://dashboard.garden.canary.k8s.ondemand.com/namespace/garden-nasa/shoots), use the port-forward script and then run the requests in `app.http`:
+
+```bash
+tools/k8s/port-forward.sh   # forwards cluster service to localhost:8008
+# open app.http in your IDE and run requests against http://localhost:8008
+```
+
 ## Deployment
 
 - **Registry:** ghcr.io

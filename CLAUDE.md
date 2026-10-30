@@ -47,6 +47,6 @@ nasa-neo/
         └── deploy.yml
 ```
 
-## Constraints
+## Workflow
 
-- Not expected to be production-ready
+- Only commit and push when explicitly triggered by the user — never proactively
