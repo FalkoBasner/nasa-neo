@@ -3,4 +3,4 @@ name: nasa-neo
 description: NASA Near Earth Object API
 type: application
 version: 1.0.0
-appVersion: "0.1.0"
+appVersion: "0.0.0"
