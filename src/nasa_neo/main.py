@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
+from prometheus_fastapi_instrumentator import Instrumentator
 
 import nasa_neo.stats as stats
 from nasa_neo.routers.error_handlers import register_error_handlers
@@ -9,6 +10,7 @@ from nasa_neo.routers.neo import router as neo_router
 app = FastAPI()
 app.include_router(neo_router)
 register_error_handlers(app)
+Instrumentator().instrument(app).expose(app)
 
 
 @app.middleware("http")

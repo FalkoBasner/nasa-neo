@@ -15,6 +15,7 @@ A small web server wrapping the NASA NeoWs (Near Earth Object Web Service) API, 
 | `GET` | `/neo/week/<N>?filter=hazardous` | Only potentially hazardous NEO IDs |
 | `GET` | `/stats` | Total request count (resets on restart) |
 | `GET` | `/docs` | Swagger UI (OpenAPI) |
+| `GET` | `/metrics` | Prometheus metrics (request counts, latencies, in-flight requests) |
 
 
 ## Development Setup
@@ -49,6 +50,8 @@ All scripts are callable from any directory.
 | `tools/k8s/pod-info.sh` | Show pod status (phase, image, restarts, age) |
 
 Get a NASA API key at https://api.nasa.gov/.
+
+**Prometheus metrics** are exposed at `/metrics` via [`prometheus-fastapi-instrumentator`](https://github.com/trallnag/prometheus-fastapi-instrumentator). To scrape them, deploy Prometheus with a `ServiceMonitor` pointing at the nasa-neo service in the `nasa` namespace. Gardener's built-in Prometheus runs in the seed cluster and cannot be extended with custom scrape targets.
 
 **Testing against the cluster:** Once you have [configured cluster access](https://dashboard.garden.canary.k8s.ondemand.com/namespace/garden-nasa/shoots), use the port-forward script and then run the requests in `app.http`:
 

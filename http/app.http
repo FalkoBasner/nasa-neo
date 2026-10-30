@@ -19,6 +19,9 @@ GET {{baseUrl}}/neo/week/44?filter=hazardous
 ### Stats
 GET {{baseUrl}}/stats
 
+### Metrics
+GET {{baseUrl}}/metrics
+
 ### 422 — week out of range (too low)
 GET {{baseUrl}}/neo/week/0
 
