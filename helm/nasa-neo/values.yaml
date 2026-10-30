@@ -11,5 +11,5 @@ service:
   targetPort: 8000
 
 ingress:
-  enabled: false
-  host: nasa-neo.local
+  enabled: true
+  host: nasa-neo.r3qxqvepx6.nasa.shoot.canary.k8s-hana.ondemand.com
