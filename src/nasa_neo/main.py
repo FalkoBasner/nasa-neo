@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 
 import nasa_neo.stats as stats
 from nasa_neo.routers.error_handlers import register_error_handlers
-from nasa_neo.routers.models import RequestCounts, StatsResponse
+from nasa_neo.routers.models import HealthResponse, RequestCounts, StatsResponse
 from nasa_neo.routers.neo import router as neo_router
 
 app = FastAPI()
@@ -22,9 +22,9 @@ async def count_requests(request: Request, call_next):
     return await call_next(request)
 
 
-@app.get("/health")
-def health():
-    return {"status": "ok"}
+@app.get("/health", response_model=HealthResponse)
+def health() -> HealthResponse:
+    return HealthResponse(status="ok")
 
 
 @app.get("/stats", response_model=StatsResponse)

@@ -11,6 +11,10 @@ class ValidationErrorResponse(BaseModel):
     detail: str
 
 
+class HealthResponse(BaseModel):
+    status: str
+
+
 class RequestCounts(BaseModel):
     total: int
     health: int
