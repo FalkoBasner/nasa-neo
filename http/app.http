@@ -1,11 +1,14 @@
-# nasa-neo app API — local dev requests
-# Start the app with: ./run_local_dev.sh
+# nasa-neo app API
+# Environments: local (port 8000), gardener (port-forward via tools/k8s/port-forward.sh, port 8008)
 
 ### Health check
-GET http://localhost:8000/health
+GET {{baseUrl}}/health
 
 ### NEOs for current week (week 44, 2026)
-GET http://localhost:8000/neo/week/44
+GET {{baseUrl}}/neo/week/44
 
 ### NEOs for current week — hazardous only
-GET http://localhost:8000/neo/week/44?filter=hazardous
+GET {{baseUrl}}/neo/week/44?filter=hazardous
+
+### Stats
+GET {{baseUrl}}/stats

@@ -15,19 +15,31 @@ A small web server wrapping the NASA NeoWs (Near Earth Object Web Service) API, 
 
 ## Development Setup
 
-**Install [uv](https://docs.astral.sh/uv/getting-started/installation/)** (Python package manager).
+**Install [asdf](https://asdf-vm.com/guide/getting-started.html)** for tool version management, then:
+
+```bash
+asdf plugin add uv https://github.com/asdf-community/asdf-uv.git
+asdf plugin add helm https://github.com/Antiarchitect/asdf-helm.git
+asdf install
+```
+
+This installs all tools pinned in `.tool-versions` (`uv`, `helm`).
 
 ```bash
 uv sync
 export NASA_API_KEY=your_key_here  # omit to use DEMO_KEY (rate limited)
 ```
 
+All scripts are callable from any directory.
+
 | Script | Purpose |
 |---|---|
-| `run_local_dev.sh` | Start the FastAPI server locally on port 8000 with hot-reload |
-| `run_tests.sh` | Run the test suite via pytest |
-| `run_local_docker_build.sh` | Build Docker image tagged `nasa-neo:local` |
-| `run_docker_build.sh` | Build Docker image tagged `nasa-neo:<git-sha>` (used in CI) |
+| `tools/dev/run.sh` | Start the FastAPI server locally on port 8000 with hot-reload |
+| `tools/dev/tests.sh [args]` | Run the test suite via pytest (extra args passed through) |
+| `tools/dev/docker-build.sh` | Build Docker image tagged `nasa-neo:local` |
+| `tools/gh/list-images.sh` | List published container images from ghcr.io with tags and timestamps |
+| `tools/k8s/port-forward.sh [port]` | Port-forward the cluster service to localhost (default: 8008) |
+| `tools/k8s/pod-info.sh` | Show pod status (phase, image, restarts, age) |
 
 Get a NASA API key at https://api.nasa.gov/.
 
@@ -38,6 +50,17 @@ Get a NASA API key at https://api.nasa.gov/.
 - **CI/CD:** GitHub Actions → build Docker image → push to ghcr.io → `helm upgrade --install`
 - Kubeconfig stored as a GitHub Actions secret
 - Gardener kube-apiserver must be publicly reachable (`kubectl cluster-info`)
+
+### One-time Repository Setup
+
+**Add GitHub Actions secrets** under Settings → Secrets and variables → Actions:
+
+| Secret | Value |
+|---|---|
+| `KUBECONFIG` | Shoot cluster kubeconfig (see below) |
+| `NASA_API_KEY` | Your NASA API key from https://api.nasa.gov/ |
+
+To get the kubeconfig value for the `KUBECONFIG` secret, follow the **Create GitHub Actions service account** step in One-time Cluster Setup below.
 
 ### One-time Cluster Setup
 
@@ -61,6 +84,31 @@ kubectl create secret docker-registry ghcr-pull-secret \
   --namespace nasa
 ```
 
+**Create GitHub Actions service account:**
+
+Create a dedicated Kubernetes identity for CI with the minimum permissions needed to deploy:
+
+```bash
+# Service account — the identity CI authenticates as
+kubectl create serviceaccount github-actions -n nasa
+
+# RoleBinding — grants built-in 'edit' role: create/update/delete deployments,
+# services, etc. within the nasa namespace only (no cluster-wide access)
+kubectl create rolebinding github-actions \
+  --clusterrole=edit \
+  --serviceaccount=nasa:github-actions \
+  -n nasa
+
+# Token — JWT valid for 10 years; copy the output into kubeconfig-ci.yaml
+kubectl create token github-actions -n nasa --duration=87600h
+```
+
+Build a static kubeconfig from the token output and set it as the `KUBECONFIG` GitHub Actions secret:
+
+```bash
+gh secret set KUBECONFIG --repo <github-owner>/<repo> < kubeconfig-ci.yaml
+```
+
 **Rotate pull secret:**
 
 ```bash
@@ -72,8 +120,3 @@ kubectl create secret docker-registry ghcr-pull-secret \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-### Helm Deploy
-
-```bash
-helm upgrade --install nasa-neo helm/nasa-neo --namespace nasa
-```

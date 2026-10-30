@@ -10,7 +10,7 @@ from nasa_neo.routers.error_types import UpstreamError
 from nasa_neo.nasa_client import NasaClient
 
 FIXTURE = json.loads(
-    (Path(__file__).parent.parent / "http/nasa-feed-week-current.json").read_text()
+    (Path(__file__).parent.parent / "http/nasa/nasa-feed-week-current.json").read_text()
 )
 
 EXPECTED_IDS = {
