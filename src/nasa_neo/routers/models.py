@@ -11,8 +11,12 @@ class ValidationErrorResponse(BaseModel):
     detail: str
 
 
+class HealthStatus(StrEnum):
+    ok = "ok"
+
+
 class HealthResponse(BaseModel):
-    status: str
+    status: HealthStatus
 
 
 class RequestCounts(BaseModel):
