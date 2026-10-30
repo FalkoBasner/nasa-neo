@@ -1,6 +1,9 @@
 # nasa-neo app API
 # Environments: local (port 8000), gardener (port-forward via tools/k8s/port-forward.sh, port 8008)
 
+### Root
+GET {{baseUrl}}
+
 ### Docs
 GET {{baseUrl}}/docs
 
@@ -15,6 +18,9 @@ GET {{baseUrl}}/neo/week/44?filter=hazardous
 
 ### Stats
 GET {{baseUrl}}/stats
+
+### Metrics
+GET {{baseUrl}}/metrics
 
 ### 422 — week out of range (too low)
 GET {{baseUrl}}/neo/week/0

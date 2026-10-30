@@ -2,6 +2,10 @@
 
 A small web server wrapping the NASA NeoWs (Near Earth Object Web Service) API, containerized and deployed via Helm to a SAP Gardener Kubernetes cluster.
 
+**Live API:** http://aec906a042180430ba49f70e07566242-18198717.eu-west-1.elb.amazonaws.com
+
+> **Note:** This is HTTP only and not suitable for production. A real deployment would need a proper domain, TLS termination via an ingress controller (e.g. nginx-ingress), and a certificate provisioned by cert-manager.
+
 ## API Endpoints
 
 | Method | Path | Description |
@@ -11,6 +15,7 @@ A small web server wrapping the NASA NeoWs (Near Earth Object Web Service) API, 
 | `GET` | `/neo/week/<N>?filter=hazardous` | Only potentially hazardous NEO IDs |
 | `GET` | `/stats` | Total request count (resets on restart) |
 | `GET` | `/docs` | Swagger UI (OpenAPI) |
+| `GET` | `/metrics` | Prometheus metrics (request counts, latencies, in-flight requests) |
 
 
 ## Development Setup
@@ -44,12 +49,19 @@ All scripts are callable from any directory.
 | `tools/k8s/port-forward.sh [port]` | Port-forward the cluster service to localhost (default: 8008) |
 | `tools/k8s/pod-info.sh` | Show pod status (phase, image, restarts, age) |
 
-Get a NASA API key at https://api.nasa.gov/.
+**Prometheus metrics** are exposed at `/metrics` via [`prometheus-fastapi-instrumentator`](https://github.com/trallnag/prometheus-fastapi-instrumentator). To scrape them, deploy Prometheus with a `ServiceMonitor` pointing at the nasa-neo service in the `nasa` namespace. Gardener's built-in Prometheus runs in the seed cluster and cannot be extended with custom scrape targets.
+
+**Testing against the cluster:** Once you have [configured cluster access](https://dashboard.garden.canary.k8s.ondemand.com/namespace/garden-nasa/shoots), use the port-forward script and then run the requests in `app.http`:
+
+```bash
+tools/k8s/port-forward.sh   # forwards cluster service to localhost:8008
+# open app.http in your IDE and run requests against http://localhost:8008
+```
 
 ## Deployment
 
 - **Registry:** ghcr.io
-- **Cluster:** SAP Gardener trial cluster
+- **Cluster:** SAP Gardener trial cluster ([dashboard](https://dashboard.garden.canary.k8s.ondemand.com/namespace/garden-nasa/shoots))
 - **CI/CD:** GitHub Actions → build Docker image → push to ghcr.io → `helm upgrade --install`
 - Kubeconfig stored as a GitHub Actions secret
 - Gardener kube-apiserver must be publicly reachable (`kubectl cluster-info`)
@@ -61,7 +73,6 @@ Get a NASA API key at https://api.nasa.gov/.
 | Secret | Value |
 |---|---|
 | `KUBECONFIG` | Shoot cluster kubeconfig (see below) |
-| `NASA_API_KEY` | Your NASA API key from https://api.nasa.gov/ |
 
 To get the kubeconfig value for the `KUBECONFIG` secret, follow the **Create GitHub Actions service account** step in One-time Cluster Setup below.
 
