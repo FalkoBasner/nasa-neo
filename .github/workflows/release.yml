@@ -45,6 +45,7 @@ jobs:
           KUBECONFIG_DATA: ${{ secrets.KUBECONFIG }}
         run: |
           echo "$KUBECONFIG_DATA" > /tmp/kubeconfig.yaml
+          sed -i "s/^appVersion:.*/appVersion: \"${{ github.event.release.tag_name }}\"/" helm/nasa-neo/Chart.yaml
           helm upgrade --install nasa-neo helm/nasa-neo \
             --namespace nasa \
             --kubeconfig /tmp/kubeconfig.yaml \
