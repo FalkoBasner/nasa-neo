@@ -43,12 +43,10 @@ jobs:
       - name: Deploy via Helm
         env:
           KUBECONFIG_DATA: ${{ secrets.KUBECONFIG }}
-          NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
         run: |
           echo "$KUBECONFIG_DATA" > /tmp/kubeconfig.yaml
           helm upgrade --install nasa-neo helm/nasa-neo \
             --namespace nasa \
             --kubeconfig /tmp/kubeconfig.yaml \
             --set image.tag=${{ github.event.release.tag_name }} \
-            --set env.NASA_API_KEY="$NASA_API_KEY" \
             --wait

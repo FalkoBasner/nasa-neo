@@ -38,6 +38,8 @@ All scripts are callable from any directory.
 | `tools/dev/tests.sh [args]` | Run the test suite via pytest (extra args passed through) |
 | `tools/dev/docker-build.sh` | Build Docker image tagged `nasa-neo:local` |
 | `tools/gh/list-images.sh` | List published container images from ghcr.io with tags and timestamps |
+| `tools/k8s/set-nasa-api-key.sh <key>` | Create or update the `nasa-api-key` cluster secret |
+| `tools/k8s/list-secrets.sh` | List all secrets in the nasa namespace |
 | `tools/k8s/port-forward.sh [port]` | Port-forward the cluster service to localhost (default: 8008) |
 | `tools/k8s/pod-info.sh` | Show pod status (phase, image, restarts, age) |
 
@@ -70,6 +72,12 @@ Run these once when setting up a new cluster.
 
 ```bash
 kubectl create namespace nasa
+```
+
+**Create NASA API key secret:**
+
+```bash
+tools/k8s/set-nasa-api-key.sh <your-nasa-api-key>
 ```
 
 **Create ghcr.io pull secret:**
