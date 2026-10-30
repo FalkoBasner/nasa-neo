@@ -15,3 +15,12 @@ GET {{baseUrl}}/neo/week/44?filter=hazardous
 
 ### Stats
 GET {{baseUrl}}/stats
+
+### 422 — week out of range (too low)
+GET {{baseUrl}}/neo/week/0
+
+### 422 — week out of range (too high)
+GET {{baseUrl}}/neo/week/54
+
+### 422 — invalid filter value
+GET {{baseUrl}}/neo/week/44?filter=unknown

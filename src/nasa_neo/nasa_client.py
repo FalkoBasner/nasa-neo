@@ -3,7 +3,7 @@ from datetime import date
 
 import httpx
 
-from nasa_neo.routers.error_types import ErrorSource, UpstreamError
+from nasa_neo.routers.models import ErrorSource, UpstreamError
 
 NASA_API_KEY = os.getenv("NASA_API_KEY", "DEMO_KEY")
 BASE_URL = "https://api.nasa.gov/neo/rest/v1/feed"

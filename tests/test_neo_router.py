@@ -5,7 +5,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from nasa_neo.main import app
-from nasa_neo.routers.error_types import UpstreamError
+from nasa_neo.routers.models import UpstreamError
 from nasa_neo.nasa_client import get_nasa_client
 
 FIXTURE = json.loads(
