@@ -61,7 +61,6 @@ Get a NASA API key at https://api.nasa.gov/.
 | Secret | Value |
 |---|---|
 | `KUBECONFIG` | Shoot cluster kubeconfig (see below) |
-| `NASA_API_KEY` | Your NASA API key from https://api.nasa.gov/ |
 
 To get the kubeconfig value for the `KUBECONFIG` secret, follow the **Create GitHub Actions service account** step in One-time Cluster Setup below.
 
